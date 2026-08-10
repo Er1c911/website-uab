@@ -143,7 +143,17 @@ class PengurusProfileStore
 
     private function path(): string
     {
-        return storage_path('app/' . self::FILE_NAME);
+        $storagePath = storage_path('app/' . self::FILE_NAME);
+
+        // On some serverless platforms (Vercel) the application filesystem is read-only.
+        // Fall back to the system temp directory when storage path is not writable.
+        $storageDir = dirname($storagePath);
+        if (is_dir($storageDir) && is_writable($storageDir)) {
+            return $storagePath;
+        }
+
+        // If storage dir isn't writable, use system temp directory.
+        return rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . self::FILE_NAME;
     }
 
     private function defaultProfiles(): array

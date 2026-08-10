@@ -46,7 +46,15 @@ class SitePageStore
 
     private function path(): string
     {
-        return storage_path('app/' . self::FILE_NAME);
+        $storagePath = storage_path('app/' . self::FILE_NAME);
+
+        // Use storage_path if writable; otherwise fall back to system temp directory
+        $storageDir = dirname($storagePath);
+        if (is_dir($storageDir) && is_writable($storageDir)) {
+            return $storagePath;
+        }
+
+        return rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . self::FILE_NAME;
     }
 
     private function defaultPages(): array

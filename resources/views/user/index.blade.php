@@ -811,7 +811,7 @@
         @if ($currentSlug === 'beranda')
             <article class="content beranda-welcome" aria-label="beranda">
                 <div class="beranda-stack">
-                    <img class="beranda-logo" src="{{ asset('logo/Logo Homeband.png') }}" alt="Logo Homeband">
+                    <img class="beranda-logo" src="{{ asset('logo/logo-homeband.png') }}" alt="Logo Homeband">
                     <h1>Selamat Datang di Website Resmi Unit Aktivitas Band</h1>
                 </div>
             </article>

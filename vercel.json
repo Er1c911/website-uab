@@ -14,7 +14,7 @@
         "APP_ENV": "production",
         "APP_DEBUG": "false",
         "APP_URL": "https://yourproductionurl.com",
-        "APP_KEY": "base64:TGaVaXwhWgjn9akhE4SCSIjGG/cQqvICUQ+PgLA3Bs0=",
+        "APP_KEY": "base64:ejaav1QSsUWFdvUl1M0x2YjmBw4MdL4EMvNRG1mihMM=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
@@ -28,6 +28,8 @@
         "DB_HOST": "tlm9ev.h.filess.io",
         "DB_PORT": "3306",
         "DB_DATABASE": "dbuab_atomeggthy",
-        "DB_USERNAME": "dbuab_atomeggthy"
+        "DB_USERNAME": "dbuab_atomeggthy",
+        "DB_PASSWORD": "8709144e93094e4d154f703006b7d1c124f03638",
+        "APP_DEBUG": "true"
     }
 }

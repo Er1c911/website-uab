@@ -2,25 +2,25 @@
 
 namespace App\Support;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class PengurusProfileStore
 {
     private const FILE_NAME = 'pengurus_profiles.json';
+    private const STORAGE_KEY = 'pengurus_profiles';
+    private const STORAGE_TABLE = 'app_storage';
 
     public function all(): array
     {
         $default = $this->defaultProfiles();
-        $path = $this->path();
+        $stored = $this->getStoredProfiles();
 
-        if (!File::exists($path)) {
-            File::ensureDirectoryExists(dirname($path));
-            File::put($path, json_encode($default, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
+        if ($stored === null) {
             return $default;
         }
 
-        $decoded = json_decode((string) File::get($path), true);
+        $decoded = json_decode($stored, true);
 
         if (!is_array($decoded)) {
             return $default;
@@ -138,21 +138,66 @@ class PengurusProfileStore
             $profiles[$role][$key] = $value;
         }
 
-        File::put($this->path(), json_encode($profiles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $this->saveProfiles($profiles);
     }
 
-    private function path(): string
+    private function getStoredProfiles(): ?string
+    {
+        if ($this->hasDatabaseTable()) {
+            $row = DB::table(self::STORAGE_TABLE)->where('key', self::STORAGE_KEY)->first();
+
+            if ($row !== null) {
+                return $row->data;
+            }
+
+            $this->saveProfiles($this->defaultProfiles());
+            return null;
+        }
+
+        $path = $this->getStoragePath();
+
+        if (!File::exists($path)) {
+            File::ensureDirectoryExists(dirname($path));
+            File::put($path, json_encode($this->defaultProfiles(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            return null;
+        }
+
+        return (string) File::get($path);
+    }
+
+    private function saveProfiles(array $profiles): void
+    {
+        if ($this->hasDatabaseTable()) {
+            DB::table(self::STORAGE_TABLE)->updateOrInsert(
+                ['key' => self::STORAGE_KEY],
+                ['data' => json_encode($profiles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), 'updated_at' => now(), 'created_at' => now()]
+            );
+            return;
+        }
+
+        $path = $this->getStoragePath();
+        File::ensureDirectoryExists(dirname($path));
+        File::put($path, json_encode($profiles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    }
+
+    private function hasDatabaseTable(): bool
+    {
+        try {
+            return DB::getSchemaBuilder()->hasTable(self::STORAGE_TABLE);
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
+    private function getStoragePath(): string
     {
         $storagePath = storage_path('app/' . self::FILE_NAME);
 
-        // On some serverless platforms (Vercel) the application filesystem is read-only.
-        // Fall back to the system temp directory when storage path is not writable.
         $storageDir = dirname($storagePath);
         if (is_dir($storageDir) && is_writable($storageDir)) {
             return $storagePath;
         }
 
-        // If storage dir isn't writable, use system temp directory.
         return rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . self::FILE_NAME;
     }
 

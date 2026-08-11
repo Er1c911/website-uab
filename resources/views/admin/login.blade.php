@@ -168,7 +168,6 @@
         <main class="card">
             <p class="eyebrow">Admin Portal</p>
             <h1>Login Admin</h1>
-            <p class="sub">Gunakan username dan password admin untuk mengakses dashboard.</p>
 
             @if ($errors->any())
                 <p class="error">{{ $errors->first() }}</p>

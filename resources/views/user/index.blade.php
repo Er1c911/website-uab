@@ -749,15 +749,19 @@
             padding-left: 1.3rem;
             color: #c2c2c2;
             line-height: 1.7;
-            text-align: center;
+            text-align: left;
             max-width: 760px;
         }
 
         .mission-list li {
             margin-bottom: 0.7rem;
-            display: inline-block;
+            display: list-item;
             text-align: left;
-            max-width: 100%;
+        }
+
+        .mission-list li::marker {
+            color: #f4f4f4;
+            font-weight: 600;
         }
 
         .section-content .section-item h2 {

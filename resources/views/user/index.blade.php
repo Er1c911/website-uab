@@ -745,18 +745,29 @@
         }
 
         .mission-list {
-            margin: 10px 0 0;
+            margin: 10px auto 0;
             padding-left: 1.3rem;
             color: #c2c2c2;
             line-height: 1.7;
+            text-align: center;
+            max-width: 760px;
         }
 
         .mission-list li {
             margin-bottom: 0.7rem;
+            display: inline-block;
+            text-align: left;
+            max-width: 100%;
         }
 
         .section-content .section-item h2 {
             text-align: center;
+        }
+
+        .section-content .section-item p {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto;
         }
 
         @media (max-width: 820px) {

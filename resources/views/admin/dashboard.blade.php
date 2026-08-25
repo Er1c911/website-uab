@@ -178,6 +178,7 @@
             <a class="manage-btn" href="{{ route('admin.kelola-booklet') }}">Kelola Booklet</a>
             <a class="manage-btn" href="{{ route('admin.kelola-undangan') }}">Kelola Undangan</a>
             <a class="manage-btn" href="{{ route('admin.kelola-rilisan') }}">Kelola Rilisan</a>
+            <a class="manage-btn" href="{{ route('admin.kelola-informasi') }}">Kelola Informasi</a>
         </div>
     </main>
     <footer class="site-footer">

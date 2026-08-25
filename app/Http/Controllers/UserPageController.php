@@ -248,8 +248,9 @@ class UserPageController extends Controller
             'informasi' => [
                 'label' => 'Informasi',
                 'route' => 'user.informasi',
-                'title' => 'Pusat Informasi',
-                'content' => 'Berisi pengumuman jadwal, berita komunitas, dan informasi penting lainnya untuk anggota maupun publik.',
+                'title' => $sitePages['informasi']['title'] ?? 'Pusat Informasi',
+                'content' => $sitePages['informasi']['content'] ?? '',
+                'cards' => $sitePages['informasi']['cards'] ?? [],
                 'showInMenu' => true,
             ],
         ];

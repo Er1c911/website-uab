@@ -50,6 +50,8 @@ Route::prefix('admin')->group(function (): void {
         Route::post('/kelola-undangan', [AdminDashboardController::class, 'updateUndangan'])->name('admin.kelola-undangan.update');
         Route::get('/kelola-rilisan', [AdminDashboardController::class, 'kelolaRilisan'])->name('admin.kelola-rilisan');
         Route::post('/kelola-rilisan', [AdminDashboardController::class, 'updateRilisan'])->name('admin.kelola-rilisan.update');
+        Route::get('/kelola-informasi', [AdminDashboardController::class, 'kelolaInformasi'])->name('admin.kelola-informasi');
+        Route::post('/kelola-informasi', [AdminDashboardController::class, 'updateInformasi'])->name('admin.kelola-informasi.update');
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
     });
 });

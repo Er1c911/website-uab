@@ -127,6 +127,18 @@ class AdminDashboardController extends Controller
         ]);
     }
 
+    public function kelolaInformasi(): View
+    {
+        $sitePages = $this->sitePageStore->all();
+
+        return view('admin.kelola-informasi', [
+            'informasi' => $sitePages['informasi'] ?? [
+                'title' => 'Pusat Informasi',
+                'content' => '',
+            ],
+        ]);
+    }
+
     public function updateBooklet(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -234,6 +246,47 @@ class AdminDashboardController extends Controller
         return redirect()
             ->route('admin.kelola-rilisan')
             ->with('status', 'Halaman Rilisan berhasil diperbarui dan tersinkron ke halaman user.');
+    }
+
+    public function updateInformasi(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:120'],
+            'cards' => ['nullable', 'array'],
+            'cards.*.title' => ['nullable', 'string', 'max:200'],
+            'cards.*.image_url' => ['nullable', 'url', 'max:500'],
+            'cards.*.description' => ['nullable', 'string', 'max:5000'],
+        ]);
+
+        $cards = array_values(array_filter(array_map(static function ($card): ?array {
+            if (!is_array($card)) {
+                return null;
+            }
+
+            $title = trim((string) ($card['title'] ?? ''));
+            $imageUrl = trim((string) ($card['image_url'] ?? ''));
+            $description = trim((string) ($card['description'] ?? ''));
+
+            if ($title === '' && $imageUrl === '' && $description === '') {
+                return null;
+            }
+
+            return [
+                'title' => $title,
+                'image_url' => $imageUrl,
+                'description' => $description,
+            ];
+        }, $validated['cards'] ?? [])));
+
+        $this->sitePageStore->update('informasi', [
+            'title' => $validated['title'],
+            'content' => '',
+            'cards' => $cards,
+        ]);
+
+        return redirect()
+            ->route('admin.kelola-informasi')
+            ->with('status', 'Halaman Informasi berhasil diperbarui dan tersinkron ke halaman user.');
     }
 
     public function updatePenyewaan(Request $request): RedirectResponse

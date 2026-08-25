@@ -1011,6 +1011,30 @@
                             <p class="lead">Belum ada rilisan yang ditambahkan.</p>
                         @endif
                     @endif
+                @elseif ($currentSlug === 'informasi')
+                    @if (!empty($currentPage['cards']) && is_array($currentPage['cards']))
+                        <section class="cards cards-center" aria-label="Informasi Homeband">
+                            @foreach ($currentPage['cards'] as $card)
+                                <article class="card booklet-card">
+                                    @if (!empty($card['image_url']))
+                                        <div class="booklet-photo-wrap">
+                                            <img class="booklet-photo" src="{{ $card['image_url'] }}" alt="{{ $card['title'] ?? 'Informasi Homeband' }}">
+                                        </div>
+                                    @endif
+                                    <div class="profile-body">
+                                        @if (!empty($card['title']))
+                                            <h2 class="profile-name">{{ $card['title'] }}</h2>
+                                        @endif
+                                        @if (!empty($card['description']))
+                                            <p class="booklet-description">{{ $card['description'] }}</p>
+                                        @endif
+                                    </div>
+                                </article>
+                            @endforeach
+                        </section>
+                    @else
+                        <p class="lead">Belum ada informasi yang ditambahkan.</p>
+                    @endif
                 @elseif (!in_array($currentSlug, ['ketum', 'waketum'], true) && !empty($currentPage['content']))
                     <p class="lead">{{ $currentPage['content'] }}</p>
                 @endif

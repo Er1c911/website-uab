@@ -141,6 +141,11 @@ class SitePageStore
                 'content' => '',
                 'items' => [],
             ],
+            'informasi' => [
+                'title' => 'Pusat Informasi',
+                'content' => '',
+                'cards' => [],
+            ],
         ];
     }
 }

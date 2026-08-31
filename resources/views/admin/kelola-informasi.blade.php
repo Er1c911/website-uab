@@ -62,120 +62,267 @@
         }
 
         .form-block {
-            border: 1px solid #353535;
-            border-radius: 12px;
-            padding: 12px;
-            background: rgba(14, 14, 14, 0.65);
+            border: 1px solid rgba(217, 11, 28, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(30, 15, 15, 0.4));
             margin-top: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(217, 11, 28, 0.2);
         }
 
-        .field { margin-bottom: 12px; }
+        .field { 
+            margin-bottom: 18px;
+        }
 
         .field label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: #e8e8e8;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .field input,
         .field textarea {
             width: 100%;
-            border: 1px solid #3f3f3f;
-            border-radius: 10px;
-            padding: 10px 12px;
-            background: rgba(8, 8, 8, 0.9);
+            border: 1.5px solid rgba(217, 11, 28, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            background: rgba(8, 8, 8, 0.7);
             color: #f5f5f5;
             font-family: inherit;
             font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--accent-strong);
+            background: rgba(8, 8, 8, 0.9);
+            box-shadow: 0 0 0 3px rgba(217, 11, 28, 0.15);
         }
 
         .field textarea {
-            min-height: 220px;
+            min-height: 120px;
             resize: vertical;
+            font-family: inherit;
+        }
+
+        .info-card-item {
+            background: linear-gradient(135deg, rgba(25, 25, 25, 0.8), rgba(35, 20, 20, 0.4));
+            border: 1.5px solid rgba(217, 11, 28, 0.25);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .info-card-item:hover {
+            border-color: rgba(217, 11, 28, 0.4);
+            box-shadow: 0 8px 24px rgba(217, 11, 28, 0.15);
         }
 
         .links-section {
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 12px;
-            background: rgba(8, 8, 8, 0.5);
-            margin-top: 8px;
+            border: 1.5px solid rgba(217, 11, 28, 0.15);
+            border-radius: 12px;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(12, 12, 12, 0.6), rgba(25, 15, 15, 0.3));
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .links-section:hover {
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.7), rgba(30, 15, 15, 0.4));
+            border-color: rgba(217, 11, 28, 0.25);
         }
 
         .links-section p {
-            margin: 0 0 8px;
-            font-weight: 700;
-            color: #fff;
+            margin: 0 0 12px;
+            font-weight: 800;
+            color: #ffb8bc;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
         }
 
         .link-item {
             display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(8, 8, 8, 0.4);
+            border-radius: 10px;
+            border: 1px solid rgba(217, 11, 28, 0.1);
+            transition: all 0.2s ease;
         }
 
-        .link-item input {
+        .link-item:hover {
+            background: rgba(8, 8, 8, 0.6);
+            border-color: rgba(217, 11, 28, 0.2);
+        }
+
+        .link-item > div {
             flex: 1;
         }
 
+        .link-item input {
+            width: 100%;
+            border: 1px solid rgba(217, 11, 28, 0.15);
+            border-radius: 8px;
+            padding: 9px 12px;
+            background: rgba(8, 8, 8, 0.5);
+            color: #f5f5f5;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .link-item input:focus {
+            outline: none;
+            border-color: rgba(217, 11, 28, 0.4);
+            background: rgba(8, 8, 8, 0.8);
+        }
+
         .link-item .btn {
-            padding: 9px 10px;
+            padding: 8px 12px;
+            white-space: nowrap;
+            font-size: 0.85rem;
         }
 
         .btn-add-link {
             font-size: 0.85rem;
-            padding: 6px 8px;
-            margin-top: 6px;
+            padding: 8px 14px;
+            margin-top: 8px;
+            background: rgba(217, 11, 28, 0.1);
+            border: 1.5px solid rgba(217, 11, 28, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-link:hover {
+            background: rgba(217, 11, 28, 0.15);
+            border-color: rgba(217, 11, 28, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .form-section-title {
+            margin: 0 0 14px;
+            font-weight: 800;
+            color: #fff;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-section-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 18px;
+            background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+            border-radius: 2px;
         }
 
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-top: 18px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(217, 11, 28, 0.2);
         }
 
         .btn {
             text-decoration: none;
-            border: 1px solid #4a4a4a;
+            border: 1.5px solid rgba(217, 11, 28, 0.3);
             border-radius: 10px;
-            padding: 9px 14px;
+            padding: 11px 18px;
             color: #f5f5f5;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .btn:hover {
             border-color: var(--accent-strong);
-            background: rgba(217, 11, 28, 0.2);
+            background: rgba(217, 11, 28, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(217, 11, 28, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-primary {
             border-color: transparent;
             background: linear-gradient(135deg, var(--accent), var(--accent-strong));
             color: #fff;
+            box-shadow: 0 4px 16px rgba(217, 11, 28, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff2b41, #ff4050);
+            box-shadow: 0 8px 24px rgba(217, 11, 28, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .add-card-btn {
+            background: rgba(217, 11, 28, 0.12);
+            border-color: rgba(217, 11, 28, 0.4);
+            font-size: 0.9rem;
+            padding: 10px 16px;
+        }
+
+        .add-card-btn:hover {
+            background: rgba(217, 11, 28, 0.2);
+            border-color: var(--accent-strong);
+        }
+
+        .remove-card-btn,
+        .remove-link-btn {
+            background: rgba(217, 11, 28, 0.15);
+            border-color: rgba(217, 11, 28, 0.3);
+            padding: 7px 10px;
+            font-size: 0.8rem;
+        }
+
+        .remove-card-btn:hover,
+        .remove-link-btn:hover {
+            background: rgba(217, 11, 28, 0.3);
+            border-color: var(--accent-strong);
         }
 
         .notice {
             margin-top: 14px;
-            border: 1px solid rgba(255, 43, 65, 0.5);
-            border-radius: 10px;
-            padding: 10px 12px;
-            background: rgba(217, 11, 28, 0.15);
+            border: 1.5px solid rgba(255, 43, 65, 0.4);
+            border-radius: 12px;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, rgba(217, 11, 28, 0.2), rgba(217, 11, 28, 0.1));
             color: #ffd8dd;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(217, 11, 28, 0.15);
         }
 
         .validation {
             margin-top: 14px;
-            border: 1px solid rgba(245, 158, 11, 0.5);
-            border-radius: 10px;
-            padding: 10px 12px;
-            background: rgba(120, 53, 15, 0.2);
+            border: 1.5px solid rgba(245, 158, 11, 0.4);
+            border-radius: 12px;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.08));
             color: #fde68a;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
         }
 
         .site-footer {
@@ -224,8 +371,8 @@
                     </div>
 
                     <div class="field">
-                        <p style="margin:0; font-weight:700; color:#fff;">Daftar Card Informasi</p>
-                        <button type="button" class="btn add-card-btn" id="addCardBtn">Tambah Card Informasi</button>
+                        <p class="form-section-title">Daftar Card Informasi</p>
+                        <button type="button" class="btn add-card-btn" id="addCardBtn">+ Tambah Card Informasi</button>
                     </div>
 
                     <div id="cardsList">

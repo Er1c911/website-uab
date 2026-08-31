@@ -723,6 +723,65 @@
             letter-spacing: 0.08em;
         }
 
+        .card-links-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card-links-group {
+            margin-top: 10px;
+        }
+
+        .card-links-group-label {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .card-link {
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            padding: 6px 12px;
+            background: rgba(217, 11, 28, 0.15);
+            border: 1px solid rgba(217, 11, 28, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #ff9fa3;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .card-link:hover {
+            background: rgba(217, 11, 28, 0.25);
+            border-color: rgba(217, 11, 28, 0.5);
+            color: #ffb8bc;
+        }
+
+        .card-whatsapp-link {
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            padding: 6px 12px;
+            background: rgba(34, 177, 76, 0.15);
+            border: 1px solid rgba(34, 177, 76, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #5bc236;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .card-whatsapp-link:hover {
+            background: rgba(34, 177, 76, 0.25);
+            border-color: rgba(34, 177, 76, 0.5);
+            color: #7fd944;
+        }
+
         @media (max-width: 960px) {
             .vinyl-layout {
                 grid-template-columns: 1fr;
@@ -1027,6 +1086,45 @@
                                         @endif
                                         @if (!empty($card['description']))
                                             <p class="booklet-description">{{ $card['description'] }}</p>
+                                        @endif
+
+                                        @if (!empty($card['links']) || !empty($card['whatsapp_links']))
+                                            <div class="card-links-section">
+                                                @if (!empty($card['links']) && is_array($card['links']))
+                                                    <div class="card-links-group">
+                                                        <span class="card-links-group-label">Link Informasi</span>
+                                                        @foreach ($card['links'] as $link)
+                                                            @php
+                                                                $linkUrl = $link['url'] ?? '';
+                                                                $linkName = $link['name'] ?? ($link['url'] ?? '');
+                                                            @endphp
+                                                            <a href="{{ $linkUrl }}" class="card-link" target="_blank" rel="noopener noreferrer">
+                                                                {{ $linkName }}
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+
+                                                @if (!empty($card['whatsapp_links']) && is_array($card['whatsapp_links']))
+                                                    <div class="card-links-group">
+                                                        <span class="card-links-group-label">Narahubung</span>
+                                                        @foreach ($card['whatsapp_links'] as $waLink)
+                                                            @php
+                                                                $waLinkValue = $waLink['link'] ?? '';
+                                                                $waLinkName = $waLink['name'] ?? $waLinkValue;
+                                                                $whatsappUrl = $waLinkValue;
+                                                                // If it's just a number, convert to wa.me link
+                                                                if (!str_starts_with($waLinkValue, 'http') && !str_starts_with($waLinkValue, 'https')) {
+                                                                    $whatsappUrl = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $waLinkValue);
+                                                                }
+                                                            @endphp
+                                                            <a href="{{ $whatsappUrl }}" class="card-whatsapp-link" target="_blank" rel="noopener noreferrer">
+                                                                {{ $waLinkName }}
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
                                         @endif
                                     </div>
                                 </article>

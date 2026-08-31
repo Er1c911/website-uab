@@ -96,6 +96,41 @@
             resize: vertical;
         }
 
+        .links-section {
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 12px;
+            background: rgba(8, 8, 8, 0.5);
+            margin-top: 8px;
+        }
+
+        .links-section p {
+            margin: 0 0 8px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .link-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .link-item input {
+            flex: 1;
+        }
+
+        .link-item .btn {
+            padding: 9px 10px;
+        }
+
+        .btn-add-link {
+            font-size: 0.85rem;
+            padding: 6px 8px;
+            margin-top: 6px;
+        }
+
         .actions {
             display: flex;
             gap: 10px;
@@ -200,6 +235,49 @@
                                     <input type="text" name="cards[{{ $index }}][title]" value="{{ old('cards.' . $index . '.title', $card['title'] ?? '') }}" placeholder="Judul Informasi">
                                     <input type="url" name="cards[{{ $index }}][image_url]" value="{{ old('cards.' . $index . '.image_url', $card['image_url'] ?? '') }}" placeholder="URL Gambar Informasi (opsional)">
                                     <textarea name="cards[{{ $index }}][description]" placeholder="Deskripsi informasi">{{ old('cards.' . $index . '.description', $card['description'] ?? '') }}</textarea>
+                                    
+                                    <!-- Links Section -->
+                                    <div class="links-section">
+                                        <p>Link Eksternal (Opsional)</p>
+                                        <div class="links-list" data-card-index="{{ $index }}" data-type="links">
+                                            @php
+                                                $links = old('cards.' . $index . '.links', $card['links'] ?? []);
+                                                if (!is_array($links)) { $links = []; }
+                                            @endphp
+                                            @foreach ($links as $linkIndex => $link)
+                                                <div class="link-item">
+                                                    <div style="display: grid; gap: 6px;">
+                                                        <input type="text" name="cards[{{ $index }}][links][{{ $linkIndex }}][name]" value="{{ $link['name'] ?? '' }}" placeholder="Nama Link (cth: Website Resmi)">
+                                                        <input type="url" name="cards[{{ $index }}][links][{{ $linkIndex }}][url]" value="{{ $link['url'] ?? '' }}" placeholder="Masukkan URL">
+                                                    </div>
+                                                    <button type="button" class="btn remove-link-btn">Hapus</button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button type="button" class="btn btn-add-link add-link-btn" data-card-index="{{ $index }}" data-type="links">+ Tambah Link</button>
+                                    </div>
+
+                                    <!-- WhatsApp Section -->
+                                    <div class="links-section">
+                                        <p>Link WhatsApp (Opsional)</p>
+                                        <div class="whatsapp-list" data-card-index="{{ $index }}" data-type="whatsapp">
+                                            @php
+                                                $whatsappLinks = old('cards.' . $index . '.whatsapp_links', $card['whatsapp_links'] ?? []);
+                                                if (!is_array($whatsappLinks)) { $whatsappLinks = []; }
+                                            @endphp
+                                            @foreach ($whatsappLinks as $waIndex => $waLink)
+                                                <div class="link-item">
+                                                    <div style="display: grid; gap: 6px;">
+                                                        <input type="text" name="cards[{{ $index }}][whatsapp_links][{{ $waIndex }}][name]" value="{{ $waLink['name'] ?? '' }}" placeholder="Nama Kontak (cth: Admin, Support)">
+                                                        <input type="text" name="cards[{{ $index }}][whatsapp_links][{{ $waIndex }}][link]" value="{{ $waLink['link'] ?? '' }}" placeholder="Masukkan nomor atau URL (cth: 62812345678 atau https://wa.me/62812345678)">
+                                                    </div>
+                                                    <button type="button" class="btn remove-link-btn">Hapus</button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button type="button" class="btn btn-add-link add-link-btn" data-card-index="{{ $index }}" data-type="whatsapp">+ Tambah WhatsApp</button>
+                                    </div>
+
                                     <div style="text-align:right;"><button type="button" class="btn remove-card-btn">Hapus</button></div>
                                 </div>
                             </div>
@@ -211,6 +289,21 @@
                                     <input type="text" name="cards[0][title]" value="" placeholder="Judul Informasi">
                                     <input type="url" name="cards[0][image_url]" value="" placeholder="URL Gambar Informasi (opsional)">
                                     <textarea name="cards[0][description]" placeholder="Deskripsi informasi"></textarea>
+                                    
+                                    <!-- Links Section -->
+                                    <div class="links-section">
+                                        <p>Link Eksternal (Opsional)</p>
+                                        <div class="links-list" data-card-index="0" data-type="links"></div>
+                                        <button type="button" class="btn btn-add-link add-link-btn" data-card-index="0" data-type="links">+ Tambah Link</button>
+                                    </div>
+
+                                    <!-- WhatsApp Section -->
+                                    <div class="links-section">
+                                        <p>Link WhatsApp (Opsional)</p>
+                                        <div class="whatsapp-list" data-card-index="0" data-type="whatsapp"></div>
+                                        <button type="button" class="btn btn-add-link add-link-btn" data-card-index="0" data-type="whatsapp">+ Tambah WhatsApp</button>
+                                    </div>
+
                                     <div style="text-align:right;"><button type="button" class="btn remove-card-btn">Hapus</button></div>
                                 </div>
                             </div>
@@ -223,6 +316,21 @@
                                 <input type="text" name="cards[__INDEX__][title]" value="" placeholder="Judul Informasi">
                                 <input type="url" name="cards[__INDEX__][image_url]" value="" placeholder="URL Gambar Informasi (opsional)">
                                 <textarea name="cards[__INDEX__][description]" placeholder="Deskripsi informasi"></textarea>
+                                
+                                <!-- Links Section -->
+                                <div class="links-section">
+                                    <p>Link Eksternal (Opsional)</p>
+                                    <div class="links-list" data-card-index="__INDEX__" data-type="links"></div>
+                                    <button type="button" class="btn btn-add-link add-link-btn" data-card-index="__INDEX__" data-type="links">+ Tambah Link</button>
+                                </div>
+
+                                <!-- WhatsApp Section -->
+                                <div class="links-section">
+                                    <p>Link WhatsApp (Opsional)</p>
+                                    <div class="whatsapp-list" data-card-index="__INDEX__" data-type="whatsapp"></div>
+                                    <button type="button" class="btn btn-add-link add-link-btn" data-card-index="__INDEX__" data-type="whatsapp">+ Tambah WhatsApp</button>
+                                </div>
+
                                 <div style="text-align:right;"><button type="button" class="btn remove-card-btn">Hapus</button></div>
                             </div>
                         </div>
@@ -245,10 +353,81 @@
                     function updateIndices() {
                         cardsList.querySelectorAll('.info-card-item').forEach((item, index) => {
                             item.dataset.index = index;
-                            item.querySelectorAll('input, textarea').forEach(input => {
+                            item.querySelectorAll('input[name^="cards"], textarea[name^="cards"]').forEach(input => {
                                 const name = input.getAttribute('name');
                                 if (!name) return;
                                 input.setAttribute('name', name.replace(/cards\[\d+\]/, 'cards[' + index + ']'));
+                            });
+
+                            // Update link indices
+                            updateLinkIndices(item, index, 'links');
+                            updateLinkIndices(item, index, 'whatsapp');
+                        });
+                    }
+
+                    function updateLinkIndices(cardItem, cardIndex, type) {
+                        const container = type === 'links' 
+                            ? cardItem.querySelector('.links-list')
+                            : cardItem.querySelector('.whatsapp-list');
+                        
+                        if (!container) return;
+
+                        container.querySelectorAll('.link-item').forEach((item, linkIndex) => {
+                            const inputs = item.querySelectorAll('input');
+                            const fieldName = type === 'links' ? 'links' : 'whatsapp_links';
+                            inputs.forEach((input, inputIndex) => {
+                                const subField = inputIndex === 0 ? 'name' : (type === 'links' ? 'url' : 'link');
+                                input.setAttribute('name', `cards[${cardIndex}][${fieldName}][${linkIndex}][${subField}]`);
+                            });
+                        });
+                    }
+
+                    function attachLinkEventListeners(cardItem) {
+                        // Add link button
+                        const addLinkButtons = cardItem.querySelectorAll('.add-link-btn');
+                        addLinkButtons.forEach(btn => {
+                            btn.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                const cardIndex = this.dataset.cardIndex;
+                                const type = this.dataset.type;
+                                const container = type === 'links'
+                                    ? cardItem.querySelector('.links-list')
+                                    : cardItem.querySelector('.whatsapp-list');
+                                
+                                if (!container) return;
+
+                                const currentCount = container.querySelectorAll('.link-item').length;
+                                const fieldName = type === 'links' ? 'links' : 'whatsapp_links';
+                                const namePlaceholder = type === 'links' 
+                                    ? 'Nama Link (cth: Website Resmi)'
+                                    : 'Nama Kontak (cth: Admin, Support)';
+                                const urlPlaceholder = type === 'links' 
+                                    ? 'Masukkan URL'
+                                    : 'Masukkan nomor atau URL (cth: 62812345678 atau https://wa.me/62812345678)';
+                                const urlField = type === 'links' ? 'url' : 'link';
+
+                                const linkItem = document.createElement('div');
+                                linkItem.className = 'link-item';
+                                linkItem.innerHTML = `
+                                    <div style="display: grid; gap: 6px;">
+                                        <input type="text" name="cards[${cardIndex}][${fieldName}][${currentCount}][name]" value="" placeholder="${namePlaceholder}">
+                                        <input type="text" name="cards[${cardIndex}][${fieldName}][${currentCount}][${urlField}]" value="" placeholder="${urlPlaceholder}">
+                                    </div>
+                                    <button type="button" class="btn remove-link-btn">Hapus</button>
+                                `;
+                                container.appendChild(linkItem);
+                            });
+                        });
+
+                        // Remove link button
+                        const removeLinkButtons = cardItem.querySelectorAll('.remove-link-btn');
+                        removeLinkButtons.forEach(btn => {
+                            btn.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                const linkItem = this.closest('.link-item');
+                                if (linkItem) {
+                                    linkItem.remove();
+                                }
                             });
                         });
                     }
@@ -257,7 +436,9 @@
                         const currentCount = cardsList.querySelectorAll('.info-card-item').length;
                         const wrapper = document.createElement('div');
                         wrapper.innerHTML = template.replace(/__INDEX__/g, currentCount);
-                        cardsList.appendChild(wrapper.firstElementChild);
+                        const newCard = wrapper.firstElementChild;
+                        cardsList.appendChild(newCard);
+                        attachLinkEventListeners(newCard);
                     });
 
                     cardsList.addEventListener('click', function (event) {
@@ -269,8 +450,12 @@
 
                         const cards = Array.from(cardsList.querySelectorAll('.info-card-item'));
                         if (cards.length <= 1) {
-                            currentCard.querySelectorAll('input, textarea').forEach(input => {
+                            currentCard.querySelectorAll('input[name^="cards"], textarea[name^="cards"]').forEach(input => {
                                 input.value = '';
+                            });
+                            // Clear links
+                            currentCard.querySelectorAll('.links-list, .whatsapp-list').forEach(container => {
+                                container.querySelectorAll('.link-item').forEach(item => item.remove());
                             });
                             updateIndices();
                             return;
@@ -278,6 +463,11 @@
 
                         currentCard.remove();
                         updateIndices();
+                    });
+
+                    // Attach listeners to existing link buttons
+                    cardsList.querySelectorAll('.info-card-item').forEach(card => {
+                        attachLinkEventListeners(card);
                     });
                 });
             </script>

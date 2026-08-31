@@ -256,6 +256,12 @@ class AdminDashboardController extends Controller
             'cards.*.title' => ['nullable', 'string', 'max:200'],
             'cards.*.image_url' => ['nullable', 'url', 'max:500'],
             'cards.*.description' => ['nullable', 'string', 'max:5000'],
+            'cards.*.links' => ['nullable', 'array'],
+            'cards.*.links.*.name' => ['nullable', 'string', 'max:200'],
+            'cards.*.links.*.url' => ['nullable', 'url', 'max:500'],
+            'cards.*.whatsapp_links' => ['nullable', 'array'],
+            'cards.*.whatsapp_links.*.name' => ['nullable', 'string', 'max:200'],
+            'cards.*.whatsapp_links.*.link' => ['nullable', 'string', 'max:500'],
         ]);
 
         $cards = array_values(array_filter(array_map(static function ($card): ?array {
@@ -271,11 +277,53 @@ class AdminDashboardController extends Controller
                 return null;
             }
 
-            return [
+            // Process links - filter out empty values
+            $links = array_values(array_filter(
+                array_map(static function ($link): ?array {
+                    if (!is_array($link)) {
+                        return null;
+                    }
+                    $name = trim((string) ($link['name'] ?? ''));
+                    $url = trim((string) ($link['url'] ?? ''));
+                    if ($name === '' || $url === '') {
+                        return null;
+                    }
+                    return ['name' => $name, 'url' => $url];
+                }, $card['links'] ?? [])
+            ));
+
+            // Process WhatsApp links - filter out empty values
+            $whatsappLinks = array_values(array_filter(
+                array_map(static function ($link): ?array {
+                    if (!is_array($link)) {
+                        return null;
+                    }
+                    $name = trim((string) ($link['name'] ?? ''));
+                    $linkValue = trim((string) ($link['link'] ?? ''));
+                    if ($name === '' || $linkValue === '') {
+                        return null;
+                    }
+                    return ['name' => $name, 'link' => $linkValue];
+                }, $card['whatsapp_links'] ?? [])
+            ));
+
+            $result = [
                 'title' => $title,
                 'image_url' => $imageUrl,
                 'description' => $description,
             ];
+
+            // Add links only if not empty
+            if (!empty($links)) {
+                $result['links'] = $links;
+            }
+
+            // Add whatsapp_links only if not empty
+            if (!empty($whatsappLinks)) {
+                $result['whatsapp_links'] = $whatsappLinks;
+            }
+
+            return $result;
         }, $validated['cards'] ?? [])));
 
         $this->sitePageStore->update('informasi', [

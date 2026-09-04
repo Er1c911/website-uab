@@ -203,10 +203,9 @@
                                 <div style="display:grid; gap:10px;">
                                     <input type="text" name="items[{{ $index }}][title]" value="{{ old('items.' . $index . '.title', $item['title'] ?? '') }}" placeholder="Nama Lagu (wajib)" required>
                                     <input type="url" name="items[{{ $index }}][image_url]" value="{{ old('items.' . $index . '.image_url', $item['image_url'] ?? '') }}" placeholder="URL Cover Gambar Lagu (opsional)">
-                                    <input type="url" name="items[{{ $index }}][audio_url]" value="{{ old('items.' . $index . '.audio_url', $item['audio_url'] ?? '') }}" placeholder="URL Audio Lagu (mp3)">
-                                    <input type="text" name="items[{{ $index }}][type]" value="{{ old('items.' . $index . '.type', $item['type'] ?? '') }}" placeholder="Tipe (lagu, album, live, dll)">
-                                    <input type="text" name="items[{{ $index }}][artist]" value="{{ old('items.' . $index . '.artist', $item['artist'] ?? '') }}" placeholder="Artis / Band">
-                                    <textarea name="items[{{ $index }}][description]" placeholder="Deskripsi singkat">{{ old('items.' . $index . '.description', $item['description'] ?? '') }}</textarea>
+                                    <input type="url" name="items[{{ $index }}][audio_url]" value="{{ old('items.' . $index . '.audio_url', $item['audio_url'] ?? '') }}" placeholder="URL Audio Lagu (opsional)">
+                                    <input type="text" name="items[{{ $index }}][artist]" value="{{ old('items.' . $index . '.artist', $item['artist'] ?? '') }}" placeholder="Nama Band (wajib)" required>
+                                    <input type="url" name="items[{{ $index }}][band_link]" value="{{ old('items.' . $index . '.band_link', $item['band_link'] ?? '') }}" placeholder="Link Band (https://...)">
                                     <div style="text-align:right;"><button type="button" class="btn remove-item-btn">Hapus</button></div>
                                 </div>
                             </div>
@@ -217,10 +216,9 @@
                                 <div style="display:grid; gap:10px;">
                                     <input type="text" name="items[0][title]" value="" placeholder="Nama Lagu (wajib)" required>
                                     <input type="url" name="items[0][image_url]" value="" placeholder="URL Cover Gambar Lagu (opsional)">
-                                    <input type="url" name="items[0][audio_url]" value="" placeholder="URL Audio Lagu (mp3)">
-                                    <input type="text" name="items[0][type]" value="" placeholder="Tipe (lagu, album, live, dll)">
-                                    <input type="text" name="items[0][artist]" value="" placeholder="Artis / Band">
-                                    <textarea name="items[0][description]" placeholder="Deskripsi singkat"></textarea>
+                                    <input type="url" name="items[0][audio_url]" value="" placeholder="URL Audio Lagu (opsional)">
+                                    <input type="text" name="items[0][artist]" value="" placeholder="Nama Band (wajib)" required>
+                                    <input type="url" name="items[0][band_link]" value="" placeholder="Link Band (https://...)">
                                     <div style="text-align:right;"><button type="button" class="btn remove-item-btn">Hapus</button></div>
                                 </div>
                             </div>
@@ -232,10 +230,9 @@
                             <div style="display:grid; gap:10px;">
                                 <input type="text" name="items[__INDEX__][title]" value="" placeholder="Nama Lagu (wajib)" required>
                                 <input type="url" name="items[__INDEX__][image_url]" value="" placeholder="URL Cover Gambar Lagu (opsional)">
-                                <input type="url" name="items[__INDEX__][audio_url]" value="" placeholder="URL Audio Lagu (mp3)">
-                                <input type="text" name="items[__INDEX__][type]" value="" placeholder="Tipe (lagu, album, live, dll)">
-                                <input type="text" name="items[__INDEX__][artist]" value="" placeholder="Artis / Band">
-                                <textarea name="items[__INDEX__][description]" placeholder="Deskripsi singkat"></textarea>
+                                <input type="url" name="items[__INDEX__][audio_url]" value="" placeholder="URL Audio Lagu (opsional)">
+                                <input type="text" name="items[__INDEX__][artist]" value="" placeholder="Nama Band (wajib)" required>
+                                <input type="url" name="items[__INDEX__][band_link]" value="" placeholder="Link Band (https://...)">
                                 <div style="text-align:right;"><button type="button" class="btn remove-item-btn">Hapus</button></div>
                             </div>
                         </div>

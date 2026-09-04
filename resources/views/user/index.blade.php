@@ -452,20 +452,20 @@
 
         .vinyl-layout {
             display: grid;
-            gap: 28px;
+            gap: 32px;
             justify-items: center;
-            width: min(920px, 100%);
+            width: min(960px, 100%);
             margin: 0 auto;
         }
 
         .vinyl-player {
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            background: linear-gradient(180deg, rgba(14, 14, 14, 0.96), rgba(23, 23, 23, 0.98));
-            padding: 24px 24px 18px;
-            max-width: 520px;
+            border: 1px solid #414141;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2b2b2b 0%, #111 48%, #252525 100%);
+            padding: 18px 20px 22px;
+            max-width: 660px;
             width: 100%;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.30);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -2px 0 rgba(0, 0, 0, 0.65);
             position: relative;
             overflow: hidden;
         }
@@ -473,46 +473,53 @@
         .vinyl-player::before {
             content: '';
             position: absolute;
-            top: -50px;
-            right: -40px;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: rgba(255, 44, 67, 0.08);
-            filter: blur(24px);
+            inset: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 8px;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 4px);
+            pointer-events: none;
         }
 
         .vinyl-player-top {
-            margin: 0 0 20px;
-            color: #d6d6d6;
-            font-size: 0.95rem;
-            text-align: center;
-            letter-spacing: 0.04em;
+            margin: 0 0 10px;
+            color: #d7d7d7;
+            font-size: 0.72rem;
+            text-align: left;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vinyl-stage {
+            position: relative;
+            min-height: 390px;
+            display: grid;
+            place-items: center;
+            z-index: 1;
         }
 
         .vinyl-player-disc {
-            width: 100%;
-            max-width: 300px;
-            height: 300px;
+            width: min(70vw, 370px);
+            height: min(70vw, 370px);
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, #121212 0%, #0c0c0c 18%, #090909 42%, #020202 100%);
-            box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.06),
-                        inset 0 0 24px rgba(255, 255, 255, 0.03),
-                        0 18px 40px rgba(0, 0, 0, 0.28);
+            background: repeating-radial-gradient(circle at 50% 50%, #050505 0 2px, #171717 2.5px 3px, #050505 3.5px 6px), radial-gradient(circle, #252525, #020202 72%);
+            border: 4px solid #090909;
+            box-shadow: inset 0 0 0 2px #3b3b3b, inset 0 0 25px #000, 8px 16px 20px rgba(0,0,0,0.62);
             position: relative;
             display: grid;
             place-items: center;
-            transition: transform 0.28s ease, border-color 0.22s ease;
+            transition: transform 0.32s ease, box-shadow 0.3s ease;
             margin: 0 auto;
         }
 
         .vinyl-player-disc::before {
             content: '';
-            width: 112px;
-            height: 112px;
+            width: 38%;
+            height: 38%;
             border-radius: 50%;
-            background: radial-gradient(circle at 45% 45%, #463a3a 0%, #191313 44%, #100f10 100%);
-            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+            background: radial-gradient(circle, #9bd0d9 0 47%, #77aeb8 48% 51%, #111 52% 55%, #4b1d24 56% 100%);
+            box-shadow: inset 0 0 0 3px #070707, 0 0 0 2px rgba(255,255,255,0.12);
             position: absolute;
         }
 
@@ -522,205 +529,252 @@
             width: 14px;
             height: 14px;
             border-radius: 50%;
-            background: #ececec;
-            box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08);
+            background: radial-gradient(circle at 40% 40%, #fafafa, #d0d0d0);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                        0 0 0 8px rgba(255, 255, 255, 0.1),
+                        0 0 0 7px rgba(255, 255, 255, 0.08);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         .vinyl-player-disc.active {
-            border-color: rgba(255, 44, 67, 0.75);
             transform: scale(1.012);
+            box-shadow: inset 0 0 0 2px #646464, inset 0 0 25px #000, 8px 16px 20px rgba(0,0,0,0.62), 0 0 28px rgba(255, 193, 7, 0.18);
         }
 
+        .tonearm {
+            position: absolute;
+            width: 46%;
+            height: 12px;
+            right: 2%;
+            top: 12%;
+            background: linear-gradient(#e4e4e4, #686868 45%, #f1f1f1 55%, #454545);
+            border-radius: 8px;
+            transform: rotate(-59deg);
+            transform-origin: right center;
+            z-index: 3;
+            box-shadow: 0 3px 4px #000;
+        }
+
+        .tonearm::before {
+            content: '';
+            position: absolute;
+            right: -17px;
+            top: -18px;
+            width: 44px;
+            height: 44px;
+            border: 7px solid #707070;
+            border-radius: 50%;
+            background: radial-gradient(circle, #bcbcbc 0 43%, #333 46% 60%, #888 62% 70%, #222 72%);
+            box-shadow: 0 3px 5px #000;
+        }
+
+        .tonearm::after {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: -5px;
+            width: 34px;
+            height: 22px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #ddd, #555);
+            box-shadow: 0 3px 4px #000;
+        }
+
+        .player-dials { position: absolute; right: 3%; bottom: 8%; z-index: 4; display: grid; gap: 12px; justify-items: center; }
+        .status-lights { display: flex; gap: 24px; align-items: center; }
+        .status-light { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #303030; box-shadow: inset 0 1px 2px rgba(255,255,255,0.8), 0 0 8px currentColor; }
+        .status-light.green { color: #28e65a; background: #28e65a; }
+        .status-light.red { color: #e52a30; background: #e52a30; }
+        .meter { width: 110px; height: 56px; overflow: hidden; border-radius: 110px 110px 0 0; border: 3px solid #717171; background: repeating-conic-gradient(from 270deg at 50% 100%, #222 0 1deg, transparent 1deg 7deg), #e8e7c4; position: relative; box-shadow: 0 3px 4px #000; }
+        .meter::after { content: ''; position: absolute; width: 2px; height: 40px; background: #bd3737; left: 50%; bottom: -4px; transform-origin: bottom; transform: rotate(12deg); }
+        .knob { width: 56px; height: 56px; border-radius: 50%; background: conic-gradient(#777, #e8e8e8, #555, #c8c8c8, #777); border: 3px solid #4b4b4b; box-shadow: 0 4px 6px #000, inset 0 0 0 2px #aaa; }
+
         .vinyl-player-info {
-            margin-top: 22px;
+            margin-top: 28px;
             text-align: center;
-            padding: 0 12px;
+            padding: 0 16px;
         }
 
         .vinyl-player-title {
             margin: 0;
-            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
             font-weight: 800;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.015em;
             color: #ffffff;
-            text-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            line-height: 1.2;
         }
 
         .vinyl-player-subtitle {
-            margin: 10px 0 0;
-            color: #c7c7c7;
-            font-size: 1rem;
-            line-height: 1.6;
+            margin: 12px 0 0;
+            color: #a8a8a8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
         }
 
         .vinyl-player-controls {
-            margin-top: 26px;
+            margin-top: 32px;
             display: flex;
             justify-content: center;
         }
 
         .vinyl-player-controls .btn {
-            min-width: 170px;
+            min-width: 180px;
             border-radius: 999px;
-            padding: 14px 28px;
-            font-size: 0.96rem;
+            padding: 16px 32px;
+            font-size: 0.95rem;
             letter-spacing: 0.02em;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 12px 36px rgba(217, 11, 28, 0.22);
+            font-weight: 600;
+            box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.1),
+                        0 16px 40px rgba(217, 11, 28, 0.2),
+                        0 0 1px rgba(217, 11, 28, 0.1);
+            transition: all 0.28s ease;
+        }
+
+        .vinyl-player-controls .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.15),
+                        0 20px 50px rgba(217, 11, 28, 0.3),
+                        0 0 20px rgba(217, 11, 28, 0.15);
         }
 
         .vinyl-player-controls .btn:disabled {
-            opacity: 0.55;
+            opacity: 0.45;
             cursor: not-allowed;
-            box-shadow: none;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
         }
 
         .vinyl-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 28px;
             width: 100%;
+            padding: 0 16px;
         }
 
         .vinyl-card {
             width: 100%;
-            min-width: 140px;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
-            background: radial-gradient(circle at 40% 40%, #151515 0%, #0b0b0b 30%, #040404 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 16px 34px rgba(0, 0, 0, 0.22);
+            background: radial-gradient(circle at 35% 35%, #1a1a1a 0%, #0d0d0d 25%, #050505 60%, #000000 100%);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.4),
+                        inset 0 0 32px rgba(0, 0, 0, 0.5),
+                        0 24px 48px rgba(0, 0, 0, 0.35),
+                        0 0 1px rgba(217, 11, 28, 0.2);
             cursor: grab;
-            transition: transform 0.18s ease, box-shadow 0.2s ease;
+            transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: grid;
             place-items: center;
             position: relative;
             overflow: hidden;
         }
 
-        .vinyl-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
-        }
-
-        .vinyl-card:active {
-            cursor: grabbing;
-            transform: scale(0.98);
-        }
-
-        .vinyl-card.dragging {
-            opacity: 0.7;
-            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.32);
-        }
-
         .vinyl-card::before {
             content: '';
             position: absolute;
-            inset: 10%;
+            inset: 8%;
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), transparent 30%);
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08), transparent 40%);
             pointer-events: none;
+            z-index: 2;
         }
 
         .vinyl-card::after {
             content: '';
             position: absolute;
-            width: 18px;
-            height: 18px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: #f4f4f4;
+            background: radial-gradient(circle at 40% 40%, #f5f5f5, #c0c0c0);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 0 4px rgba(255,255,255,0.08);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4),
+                        0 0 0 6px rgba(255, 255, 255, 0.1),
+                        0 0 0 8px rgba(217, 11, 28, 0.15);
             pointer-events: none;
+            z-index: 3;
+        }
+
+        .vinyl-card:hover {
+            transform: scale(1.08) translateY(-6px);
+            border-color: rgba(255, 44, 67, 0.35);
+            box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.4),
+                        inset 0 0 32px rgba(0, 0, 0, 0.5),
+                        0 32px 64px rgba(217, 11, 28, 0.25),
+                        0 0 40px rgba(217, 11, 28, 0.15);
+        }
+
+        .vinyl-card:active {
+            cursor: grabbing;
+            transform: scale(0.96);
+        }
+
+        .vinyl-card.dragging {
+            opacity: 0.6;
+            transform: scale(1.02) rotate(2deg);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45),
+                        0 0 60px rgba(217, 11, 28, 0.3);
         }
 
         .vinyl-card .profile-body {
             position: absolute;
-            inset: auto 0 16px;
-            padding: 0 14px;
+            inset: auto 0 20px;
+            padding: 0 12px;
             text-align: center;
             display: grid;
-            gap: 6px;
-            z-index: 1;
+            gap: 4px;
+            z-index: 4;
             width: 100%;
-            bottom: 10px;
+            bottom: 12px;
         }
 
         .vinyl-card .profile-name {
             margin: 0;
-            font-size: 1rem;
-            color: #f5f5f5;
-            line-height: 1.2;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.01em;
         }
 
         .vinyl-card .booklet-description {
             margin: 0;
-            color: #b8b8b8;
-            font-size: 0.85rem;
+            color: #d0d0d0;
+            font-size: 0.8rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.02em;
+        }
+
+        .vinyl-card .band-link {
+            margin: 0;
+            color: #ff6b9d;
+            font-size: 0.8rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+        }
+
+        .vinyl-card .band-link:hover {
+            color: #ff8fb1;
+            border-bottom-color: #ff8fb1;
+            transform: translateY(-1px);
         }
 
         .vinyl-image-wrap,
         .vinyl-image,
         .vinyl-image-placeholder {
             display: none;
-        }
-
-        .vinyl-card {
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: linear-gradient(180deg, rgba(20, 20, 20, 0.95), rgba(14, 14, 14, 0.98));
-            padding: 16px;
-            border-radius: 22px;
-            cursor: grab;
-            transition: transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-            display: grid;
-            gap: 12px;
-            position: relative;
-        }
-
-        .vinyl-card:hover {
-            border-color: rgba(255, 44, 67, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
-        }
-
-        .vinyl-card:active {
-            cursor: grabbing;
-            transform: scale(0.98);
-        }
-
-        .vinyl-card.dragging {
-            opacity: 0.65;
-            box-shadow: 0 26px 60px rgba(0, 0, 0, 0.28);
-        }
-
-        .vinyl-image-wrap {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            border-radius: 20px;
-            overflow: hidden;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), rgba(0,0,0,0.25));
-            display: grid;
-            place-items: center;
-            margin-bottom: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .vinyl-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .vinyl-image-placeholder {
-            color: #9f9f9f;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
         }
 
         .card-links-section {
@@ -785,10 +839,22 @@
         @media (max-width: 960px) {
             .vinyl-layout {
                 grid-template-columns: 1fr;
+                gap: 28px;
             }
 
             .vinyl-player {
                 width: 100%;
+            }
+
+            .vinyl-list {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 24px;
+                padding: 0 8px;
+            }
+
+            .vinyl-card {
+                max-width: 160px;
+                margin: 0 auto;
             }
         }
 
@@ -841,6 +907,22 @@
             .cards {
                 grid-template-columns: 1fr 1fr;
             }
+
+            .vinyl-player-disc {
+                max-width: 280px;
+                height: 280px;
+            }
+
+            .vinyl-player-disc::before {
+                width: 110px;
+                height: 110px;
+            }
+
+            .vinyl-list {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                gap: 20px;
+                padding: 0;
+            }
         }
 
         @media (max-width: 560px) {
@@ -855,6 +937,61 @@
 
             .menu-btn {
                 font-size: 0.89rem;
+            }
+
+            .vinyl-player {
+                padding: 24px 16px 16px;
+                border-radius: 24px;
+            }
+
+            .vinyl-player-top {
+                font-size: 0.85rem;
+                margin-bottom: 16px;
+            }
+
+            .vinyl-player-disc {
+                max-width: 240px;
+                height: 240px;
+            }
+
+            .vinyl-player-disc::before {
+                width: 90px;
+                height: 90px;
+            }
+
+            .vinyl-player-info {
+                margin-top: 20px;
+                padding: 0 8px;
+            }
+
+            .vinyl-player-title {
+                font-size: 1.2rem;
+            }
+
+            .vinyl-player-subtitle {
+                font-size: 0.88rem;
+                margin-top: 8px;
+            }
+
+            .vinyl-player-controls {
+                margin-top: 24px;
+            }
+
+            .vinyl-player-controls .btn {
+                min-width: 150px;
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+
+            .vinyl-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+                padding: 0;
+                width: 100%;
+            }
+
+            .vinyl-card {
+                max-width: 100%;
             }
         }
     </style>
@@ -1038,7 +1175,18 @@
                         <section class="vinyl-layout" aria-label="Rilisan Vinyl Player">
                             <div class="vinyl-player" id="vinylPlayer" aria-label="Vinyl Player">
                                 <div class="vinyl-player-top">Tarik vinyl ke sini untuk memutar lagu</div>
-                                <div class="vinyl-player-disc" id="vinylDropZone" aria-label="Zona Pemutar Vinyl"></div>
+                                <div class="vinyl-stage">
+                                    <div class="vinyl-player-disc" id="vinylDropZone" aria-label="Zona Pemutar Vinyl"></div>
+                                    <div class="tonearm" aria-hidden="true"></div>
+                                    <div class="player-dials" aria-hidden="true">
+                                        <div class="status-lights">
+                                            <span class="status-light green"></span>
+                                            <span class="status-light red"></span>
+                                        </div>
+                                        <div class="meter"></div>
+                                        <div class="knob"></div>
+                                    </div>
+                                </div>
                                 <div class="vinyl-player-info">
                                     <p class="vinyl-player-title" id="playerTrackTitle">Pilih rilisan untuk memutar</p>
                                     <p class="vinyl-player-subtitle" id="playerTrackArtist">Drag vinyl ke player</p>
@@ -1054,9 +1202,10 @@
                                     <article class="card vinyl-card" draggable="true" data-index="{{ $index }}" data-audio-url="{{ $item['audio_url'] ?? '' }}" data-title="{{ $item['title'] }}" data-artist="{{ $item['artist'] ?? '' }}">
                                         <div class="profile-body">
                                             <h2 class="profile-name">{{ $item['title'] }}</h2>
-                                            <p class="booklet-description">{{ $item['artist'] ?? 'Tanpa artis' }}</p>
-                                            @if (!empty($item['type']))
-                                                <p class="booklet-description">{{ $item['type'] }}</p>
+                                            @if (!empty($item['band_link']))
+                                                <a href="{{ $item['band_link'] }}" target="_blank" rel="noopener noreferrer" class="band-link">{{ $item['artist'] ?? 'Nama Band' }}</a>
+                                            @else
+                                                <p class="booklet-description">{{ $item['artist'] ?? 'Tanpa artis' }}</p>
                                             @endif
                                         </div>
                                     </article>

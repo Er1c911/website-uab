@@ -538,6 +538,17 @@
             transform: translate(-50%, -50%);
         }
 
+        .vinyl-player:not(.has-track) .vinyl-player-disc {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        .vinyl-player:not(.has-track) .vinyl-player-disc::before,
+        .vinyl-player:not(.has-track) .vinyl-player-disc::after {
+            display: none;
+        }
+
         .vinyl-player-cover {
             position: absolute;
             width: 35%;
@@ -581,6 +592,7 @@
             z-index: 3;
             box-shadow: 0 3px 4px #000;
             transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
         }
 
         .vinyl-player.playing .tonearm {
@@ -685,6 +697,7 @@
             border: 3px solid #090909;
             box-shadow: inset 0 0 0 2px #3b3b3b, inset 0 0 18px #000, 5px 10px 16px rgba(0, 0, 0, 0.58);
             cursor: grab;
+            touch-action: manipulation;
             transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: grid;
             place-items: center;
@@ -734,6 +747,49 @@
             box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14), inset 0 0 8px rgba(0, 0, 0, 0.45);
             pointer-events: none;
             z-index: 3;
+        }
+
+        .vinyl-card-arc {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .vinyl-card-arc text {
+            fill: #ffffff;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            font-size: 5px;
+            font-weight: 700;
+            letter-spacing: 0.12px;
+            paint-order: stroke;
+            stroke: rgba(0, 0, 0, 0.75);
+            stroke-width: 0.8px;
+        }
+
+        .vinyl-card-arc .arc-artist {
+            fill: #ff9fbd;
+            font-size: 4.2px;
+            font-weight: 600;
+        }
+
+        .vinyl-card-arc a {
+            pointer-events: auto;
+        }
+
+        .vinyl-card .profile-body {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         .vinyl-card:hover {
@@ -1215,10 +1271,10 @@
                                     <div class="vinyl-player-disc" id="vinylDropZone" aria-label="Zona Pemutar Vinyl">
                                         <img class="vinyl-player-cover" id="vinylPlayerCover" alt="" hidden>
                                     </div>
-                                    <div class="tonearm" aria-hidden="true"></div>
+                                    <div class="tonearm" id="tonearmControl" role="button" tabindex="0" aria-label="Putar atau jeda lagu" aria-pressed="false"></div>
                                 </div>
                                 <div class="vinyl-player-info">
-                                    <p class="vinyl-player-title" id="playerTrackTitle">Pilih rilisan untuk memutar</p>
+                                    <p class="vinyl-player-title" id="playerTrackTitle">Pilih vinyl lagu untuk memutar</p>
                                     <p class="vinyl-player-subtitle" id="playerTrackArtist">Drag vinyl ke player</p>
                                 </div>
                                 <div class="vinyl-player-controls">
@@ -1233,6 +1289,26 @@
                                         @if (!empty($item['image_url']))
                                             <img class="vinyl-card-cover" src="{{ $item['image_url'] }}" alt="Cover {{ $item['title'] }}">
                                         @endif
+                                        <svg class="vinyl-card-arc" viewBox="0 0 100 100" role="img" aria-label="{{ $item['title'] }} - {{ $item['artist'] ?? 'Tanpa artis' }}">
+                                            <defs>
+                                                <path id="vinyl-title-arc-{{ $index }}" d="M 16,53 A 35,35 0 0,1 84,53"></path>
+                                                <path id="vinyl-artist-arc-{{ $index }}" d="M 18,61 A 33,33 0 0,0 82,61"></path>
+                                            </defs>
+                                            <text text-anchor="middle" textLength="62" lengthAdjust="spacingAndGlyphs">
+                                                <textPath href="#vinyl-title-arc-{{ $index }}" startOffset="50%">{{ $item['title'] }}</textPath>
+                                            </text>
+                                            @if (!empty($item['band_link']))
+                                                <a href="{{ $item['band_link'] }}" target="_blank" rel="noopener noreferrer">
+                                                    <text class="arc-artist" text-anchor="middle" textLength="50" lengthAdjust="spacingAndGlyphs">
+                                                        <textPath href="#vinyl-artist-arc-{{ $index }}" startOffset="50%">{{ $item['artist'] ?? 'Nama Band' }}</textPath>
+                                                    </text>
+                                                </a>
+                                            @else
+                                                <text class="arc-artist" text-anchor="middle" textLength="50" lengthAdjust="spacingAndGlyphs">
+                                                    <textPath href="#vinyl-artist-arc-{{ $index }}" startOffset="50%">{{ $item['artist'] ?? 'Tanpa artis' }}</textPath>
+                                                </text>
+                                            @endif
+                                        </svg>
                                         <div class="profile-body">
                                             <h2 class="profile-name">{{ $item['title'] }}</h2>
                                             @if (!empty($item['band_link']))
@@ -1504,9 +1580,10 @@
             var playPauseBtn = document.getElementById('playPauseBtn');
             var audio = document.getElementById('vinylAudio');
             var playerCover = document.getElementById('vinylPlayerCover');
+            var tonearmControl = document.getElementById('tonearmControl');
             var currentTrack = null;
 
-            if (!player || !dropZone || !playerTitle || !playerArtist || !playPauseBtn || !audio || !playerCover) {
+            if (!player || !dropZone || !playerTitle || !playerArtist || !playPauseBtn || !audio || !playerCover || !tonearmControl) {
                 return;
             }
 
@@ -1522,6 +1599,7 @@
             function setTrack(track) {
                 currentTrack = track;
                 player.classList.remove('playing');
+                tonearmControl.setAttribute('aria-pressed', 'false');
                 audio.pause();
                 audio.src = normalizeAudioUrl(track.audioUrl || '');
                 audio.load();
@@ -1553,21 +1631,26 @@
                 if (playPromise && typeof playPromise.catch === 'function') {
                     playPromise.then(function () {
                         player.classList.add('playing');
+                        tonearmControl.setAttribute('aria-pressed', 'true');
                         playPauseBtn.textContent = 'Jeda';
                     }).catch(function () {
                         player.classList.remove('playing');
+                        tonearmControl.setAttribute('aria-pressed', 'false');
                         playPauseBtn.textContent = 'Putar';
                         playerArtist.textContent = 'Audio gagal diputar. Periksa URL audio.';
                     });
                 } else {
                     player.classList.add('playing');
+                    tonearmControl.setAttribute('aria-pressed', 'true');
                     playPauseBtn.textContent = 'Jeda';
                 }
             }
 
             function clearTrack() {
                 currentTrack = null;
+                player.classList.remove('has-track');
                 player.classList.remove('playing');
+                tonearmControl.setAttribute('aria-pressed', 'false');
                 audio.pause();
                 audio.removeAttribute('src');
                 audio.load();
@@ -1600,11 +1683,7 @@
                 }
             }
 
-            function handleDrop(event) {
-                event.preventDefault();
-                dropZone.classList.remove('active');
-                var index = event.dataTransfer.getData('text/plain');
-                var card = document.querySelector('.vinyl-card[data-index="' + index + '"]');
+            function selectCard(card) {
                 if (!card) {
                     return;
                 }
@@ -1622,8 +1701,17 @@
                     audioUrl: card.dataset.audioUrl,
                     imageUrl: card.dataset.imageUrl,
                 });
+                player.classList.add('has-track');
                 player.classList.add('active');
                 playTrack();
+            }
+
+            function handleDrop(event) {
+                event.preventDefault();
+                dropZone.classList.remove('active');
+                var index = event.dataTransfer.getData('text/plain');
+                var card = document.querySelector('.vinyl-card[data-index="' + index + '"]');
+                selectCard(card);
             }
 
             function handleDragOver(event) {
@@ -1645,11 +1733,19 @@
                 } else {
                     audio.pause();
                     player.classList.remove('playing');
+                    tonearmControl.setAttribute('aria-pressed', 'false');
                     playPauseBtn.textContent = 'Putar';
                 }
             }
 
             playPauseBtn.addEventListener('click', togglePlayback);
+            tonearmControl.addEventListener('click', togglePlayback);
+            tonearmControl.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    togglePlayback();
+                }
+            });
             dropZone.addEventListener('dragover', handleDragOver);
             dropZone.addEventListener('drop', handleDrop);
             dropZone.addEventListener('dragleave', handleDragLeave);
@@ -1657,10 +1753,18 @@
             document.querySelectorAll('.vinyl-card').forEach(function (card) {
                 card.addEventListener('dragstart', handleDragStart);
                 card.addEventListener('dragend', handleDragEnd);
+
+                if (window.matchMedia('(max-width: 820px)').matches) {
+                    card.addEventListener('dblclick', function (event) {
+                        event.preventDefault();
+                        selectCard(card);
+                    });
+                }
             });
 
             audio.addEventListener('ended', function () {
                 player.classList.remove('playing');
+                tonearmControl.setAttribute('aria-pressed', 'false');
                 playPauseBtn.textContent = 'Putar';
             });
         })();

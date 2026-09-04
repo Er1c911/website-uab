@@ -491,6 +491,10 @@
             z-index: 2;
         }
 
+        .vinyl-player-top .mobile-instruction {
+            display: none;
+        }
+
         .vinyl-stage {
             position: relative;
             min-height: 390px;
@@ -992,6 +996,14 @@
         }
 
         @media (max-width: 820px) {
+            .vinyl-player-top .desktop-instruction {
+                display: none;
+            }
+
+            .vinyl-player-top .mobile-instruction {
+                display: inline;
+            }
+
             .content {
                 padding: 20px 16px;
             }
@@ -1266,7 +1278,10 @@
                     @if (!empty($currentPage['items']) && is_array($currentPage['items']))
                         <section class="vinyl-layout" aria-label="Rilisan Vinyl Player">
                             <div class="vinyl-player" id="vinylPlayer" aria-label="Vinyl Player">
-                                <div class="vinyl-player-top">Tarik vinyl ke sini untuk memutar lagu</div>
+                                <div class="vinyl-player-top">
+                                    <span class="desktop-instruction">Tarik vinyl ke sini untuk memutar lagu</span>
+                                    <span class="mobile-instruction">Double tap pada vinyl lagu yang ingin diputar</span>
+                                </div>
                                 <div class="vinyl-stage">
                                     <div class="vinyl-player-disc" id="vinylDropZone" aria-label="Zona Pemutar Vinyl">
                                         <img class="vinyl-player-cover" id="vinylPlayerCover" alt="" hidden>

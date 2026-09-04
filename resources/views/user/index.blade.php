@@ -538,23 +538,53 @@
             transform: translate(-50%, -50%);
         }
 
+        .vinyl-player-cover {
+            position: absolute;
+            width: 35%;
+            height: 35%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #111;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14), inset 0 0 12px rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .vinyl-player-cover[hidden] {
+            display: none;
+        }
+
         .vinyl-player-disc.active {
             transform: scale(1.012);
             box-shadow: inset 0 0 0 2px #646464, inset 0 0 25px #000, 8px 16px 20px rgba(0,0,0,0.62), 0 0 28px rgba(255, 193, 7, 0.18);
+        }
+
+        @keyframes vinyl-spin {
+            from { transform: rotate(0deg) scale(1.012); }
+            to { transform: rotate(360deg) scale(1.012); }
+        }
+
+        .vinyl-player.playing .vinyl-player-disc {
+            animation: vinyl-spin 2.8s linear infinite;
         }
 
         .tonearm {
             position: absolute;
             width: 46%;
             height: 12px;
-            right: 2%;
+            right: 6%;
             top: 12%;
             background: linear-gradient(#e4e4e4, #686868 45%, #f1f1f1 55%, #454545);
             border-radius: 8px;
-            transform: rotate(-59deg);
+            transform: rotate(-71deg);
             transform-origin: right center;
             z-index: 3;
             box-shadow: 0 3px 4px #000;
+            transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .vinyl-player.playing .tonearm {
+            transform: rotate(-59deg);
         }
 
         .tonearm::before {
@@ -582,14 +612,6 @@
             box-shadow: 0 3px 4px #000;
         }
 
-        .player-dials { position: absolute; right: 3%; bottom: 8%; z-index: 4; display: grid; gap: 12px; justify-items: center; }
-        .status-lights { display: flex; gap: 24px; align-items: center; }
-        .status-light { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #303030; box-shadow: inset 0 1px 2px rgba(255,255,255,0.8), 0 0 8px currentColor; }
-        .status-light.green { color: #28e65a; background: #28e65a; }
-        .status-light.red { color: #e52a30; background: #e52a30; }
-        .meter { width: 110px; height: 56px; overflow: hidden; border-radius: 110px 110px 0 0; border: 3px solid #717171; background: repeating-conic-gradient(from 270deg at 50% 100%, #222 0 1deg, transparent 1deg 7deg), #e8e7c4; position: relative; box-shadow: 0 3px 4px #000; }
-        .meter::after { content: ''; position: absolute; width: 2px; height: 40px; background: #bd3737; left: 50%; bottom: -4px; transform-origin: bottom; transform: rotate(12deg); }
-        .knob { width: 56px; height: 56px; border-radius: 50%; background: conic-gradient(#777, #e8e8e8, #555, #c8c8c8, #777); border: 3px solid #4b4b4b; box-shadow: 0 4px 6px #000, inset 0 0 0 2px #aaa; }
 
         .vinyl-player-info {
             margin-top: 28px;
@@ -659,12 +681,9 @@
             width: 100%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #1a1a1a 0%, #0d0d0d 25%, #050505 60%, #000000 100%);
-            border: 2px solid rgba(255, 255, 255, 0.12);
-            box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.4),
-                        inset 0 0 32px rgba(0, 0, 0, 0.5),
-                        0 24px 48px rgba(0, 0, 0, 0.35),
-                        0 0 1px rgba(217, 11, 28, 0.2);
+            background: repeating-radial-gradient(circle at 50% 50%, #050505 0 1px, #171717 1.5px 2px, #050505 2.5px 4px), radial-gradient(circle, #252525, #020202 72%);
+            border: 3px solid #090909;
+            box-shadow: inset 0 0 0 2px #3b3b3b, inset 0 0 18px #000, 5px 10px 16px rgba(0, 0, 0, 0.58);
             cursor: grab;
             transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: grid;
@@ -676,9 +695,13 @@
         .vinyl-card::before {
             content: '';
             position: absolute;
-            inset: 8%;
+            width: 38%;
+            height: 38%;
+            top: 31%;
+            left: 31%;
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08), transparent 40%);
+            background: radial-gradient(circle, #9bd0d9 0 47%, #77aeb8 48% 51%, #111 52% 55%, #4b1d24 56% 100%);
+            box-shadow: inset 0 0 0 2px #070707, 0 0 0 2px rgba(255, 255, 255, 0.12);
             pointer-events: none;
             z-index: 2;
         }
@@ -686,16 +709,29 @@
         .vinyl-card::after {
             content: '';
             position: absolute;
-            width: 24px;
-            height: 24px;
+            width: 13px;
+            height: 13px;
             border-radius: 50%;
             background: radial-gradient(circle at 40% 40%, #f5f5f5, #c0c0c0);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4),
-                        0 0 0 6px rgba(255, 255, 255, 0.1),
-                        0 0 0 8px rgba(217, 11, 28, 0.15);
+                        0 0 0 6px rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .vinyl-card-cover {
+            position: absolute;
+            width: 35%;
+            height: 35%;
+            top: 32.5%;
+            left: 32.5%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #111;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14), inset 0 0 8px rgba(0, 0, 0, 0.45);
             pointer-events: none;
             z-index: 3;
         }
@@ -1176,16 +1212,10 @@
                             <div class="vinyl-player" id="vinylPlayer" aria-label="Vinyl Player">
                                 <div class="vinyl-player-top">Tarik vinyl ke sini untuk memutar lagu</div>
                                 <div class="vinyl-stage">
-                                    <div class="vinyl-player-disc" id="vinylDropZone" aria-label="Zona Pemutar Vinyl"></div>
-                                    <div class="tonearm" aria-hidden="true"></div>
-                                    <div class="player-dials" aria-hidden="true">
-                                        <div class="status-lights">
-                                            <span class="status-light green"></span>
-                                            <span class="status-light red"></span>
-                                        </div>
-                                        <div class="meter"></div>
-                                        <div class="knob"></div>
+                                    <div class="vinyl-player-disc" id="vinylDropZone" aria-label="Zona Pemutar Vinyl">
+                                        <img class="vinyl-player-cover" id="vinylPlayerCover" alt="" hidden>
                                     </div>
+                                    <div class="tonearm" aria-hidden="true"></div>
                                 </div>
                                 <div class="vinyl-player-info">
                                     <p class="vinyl-player-title" id="playerTrackTitle">Pilih rilisan untuk memutar</p>
@@ -1199,7 +1229,10 @@
 
                             <div class="vinyl-list" aria-label="Daftar Vinyl Rilisan">
                                 @foreach ($currentPage['items'] as $index => $item)
-                                    <article class="card vinyl-card" draggable="true" data-index="{{ $index }}" data-audio-url="{{ $item['audio_url'] ?? '' }}" data-title="{{ $item['title'] }}" data-artist="{{ $item['artist'] ?? '' }}">
+                                    <article class="card vinyl-card" draggable="true" data-index="{{ $index }}" data-audio-url="{{ $item['audio_url'] ?? '' }}" data-image-url="{{ $item['image_url'] ?? '' }}" data-title="{{ $item['title'] }}" data-artist="{{ $item['artist'] ?? '' }}">
+                                        @if (!empty($item['image_url']))
+                                            <img class="vinyl-card-cover" src="{{ $item['image_url'] }}" alt="Cover {{ $item['title'] }}">
+                                        @endif
                                         <div class="profile-body">
                                             <h2 class="profile-name">{{ $item['title'] }}</h2>
                                             @if (!empty($item['band_link']))
@@ -1470,17 +1503,39 @@
             var playerArtist = document.getElementById('playerTrackArtist');
             var playPauseBtn = document.getElementById('playPauseBtn');
             var audio = document.getElementById('vinylAudio');
+            var playerCover = document.getElementById('vinylPlayerCover');
             var currentTrack = null;
 
-            if (!player || !dropZone || !playerTitle || !playerArtist || !playPauseBtn || !audio) {
+            if (!player || !dropZone || !playerTitle || !playerArtist || !playPauseBtn || !audio || !playerCover) {
                 return;
+            }
+
+            function normalizeAudioUrl(url) {
+                var githubBlobMatch = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/i);
+                if (!githubBlobMatch) {
+                    return url;
+                }
+
+                return 'https://raw.githubusercontent.com/' + githubBlobMatch[1] + '/' + githubBlobMatch[2] + '/' + githubBlobMatch[3] + '/' + githubBlobMatch[4];
             }
 
             function setTrack(track) {
                 currentTrack = track;
-                audio.src = track.audioUrl || '';
+                player.classList.remove('playing');
+                audio.pause();
+                audio.src = normalizeAudioUrl(track.audioUrl || '');
+                audio.load();
                 playerTitle.textContent = track.title || 'Unknown track';
                 playerArtist.textContent = track.artist || 'Unknown artist';
+                if (track.imageUrl) {
+                    playerCover.src = track.imageUrl;
+                    playerCover.alt = 'Cover ' + (track.title || 'rilisan');
+                    playerCover.hidden = false;
+                } else {
+                    playerCover.removeAttribute('src');
+                    playerCover.alt = '';
+                    playerCover.hidden = true;
+                }
                 playPauseBtn.disabled = !track.audioUrl;
                 if (!track.audioUrl) {
                     playPauseBtn.textContent = 'Audio tidak tersedia';
@@ -1489,13 +1544,38 @@
                 }
             }
 
+            function playTrack() {
+                if (!currentTrack || !audio.src) {
+                    return;
+                }
+
+                var playPromise = audio.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.then(function () {
+                        player.classList.add('playing');
+                        playPauseBtn.textContent = 'Jeda';
+                    }).catch(function () {
+                        player.classList.remove('playing');
+                        playPauseBtn.textContent = 'Putar';
+                        playerArtist.textContent = 'Audio gagal diputar. Periksa URL audio.';
+                    });
+                } else {
+                    player.classList.add('playing');
+                    playPauseBtn.textContent = 'Jeda';
+                }
+            }
+
             function clearTrack() {
                 currentTrack = null;
+                player.classList.remove('playing');
                 audio.pause();
                 audio.removeAttribute('src');
                 audio.load();
                 playerTitle.textContent = 'Pilih rilisan untuk memutar';
                 playerArtist.textContent = 'Drag vinyl ke player';
+                playerCover.removeAttribute('src');
+                playerCover.alt = '';
+                playerCover.hidden = true;
                 playPauseBtn.disabled = true;
                 playPauseBtn.textContent = 'Putar';
                 dropZone.classList.remove('active');
@@ -1540,8 +1620,10 @@
                     title: card.dataset.title,
                     artist: card.dataset.artist,
                     audioUrl: card.dataset.audioUrl,
+                    imageUrl: card.dataset.imageUrl,
                 });
                 player.classList.add('active');
+                playTrack();
             }
 
             function handleDragOver(event) {
@@ -1559,12 +1641,10 @@
                 }
 
                 if (audio.paused) {
-                    audio.play().catch(function () {
-                        playPauseBtn.textContent = 'Putar';
-                    });
-                    playPauseBtn.textContent = 'Jeda';
+                    playTrack();
                 } else {
                     audio.pause();
+                    player.classList.remove('playing');
                     playPauseBtn.textContent = 'Putar';
                 }
             }
@@ -1580,6 +1660,7 @@
             });
 
             audio.addEventListener('ended', function () {
+                player.classList.remove('playing');
                 playPauseBtn.textContent = 'Putar';
             });
         })();
